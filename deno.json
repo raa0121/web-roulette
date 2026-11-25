@@ -6,7 +6,8 @@
     "dev": "deno run -A --node-modules-dir npm:vite",
     "build": "deno run -A --node-modules-dir npm:vite build",
     "preview": "deno run -A --node-modules-dir npm:vite preview",
-    "deploy": "deno run -A --node-modules-dir npm:wrangler deploy"
+    "deploy": "deno run -A --node-modules-dir npm:wrangler deploy",
+    "test": "deno test"
   },
   "compilerOptions": {
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
@@ -17,12 +18,12 @@
   "nodeModulesDir": "auto",
   "imports": {
     "@deno/vite-plugin": "npm:@deno/vite-plugin@^1.0.4",
-    "@types/react": "npm:@types/react@^18.3.0",
-    "@types/react-dom": "npm:@types/react-dom@^18.3.0",
+    "@std/assert": "jsr:@std/assert@^1.0.19",
+    "@types/react": "npm:@types/react@^19.3.0",
+    "@types/react-dom": "npm:@types/react-dom@^19.3.0",
     "@vitejs/plugin-react-swc": "npm:@vitejs/plugin-react-swc@^3.8.0",
-    "react": "npm:react@^18.3.0",
-    "react-dom": "npm:react-dom@^18.3.0",
-    "react-hook-roulette": "npm:react-hook-roulette@0.0.10",
+    "react": "npm:react@^19.3.1",
+    "react-dom": "npm:react-dom@^19.3.1",
     "vite": "npm:vite@^6.1.1",
     "wrangler": "npm:wrangler@^4.167.0"
   }

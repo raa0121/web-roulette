@@ -1,6 +1,6 @@
 import "./App.css";
 import { useState } from "react";
-import { Roulette, useRoulette } from "react-hook-roulette";
+import { Roulette, useRoulette } from "./roulette/index.ts";
 
 const colors = [
   "royalblue",
@@ -194,7 +194,11 @@ export default function App() {
             </button>
           </div>
           <div>
-            <button type="button" className="btn btn--blue" onClick={onNormalStart}>
+            <button
+              type="button"
+              className="btn btn--blue"
+              onClick={onNormalStart}
+            >
               開始
             </button>
             <button type="button" className="btn btn--red" onClick={onStop}>
