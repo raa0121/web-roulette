@@ -183,8 +183,7 @@ export default function App() {
               type="number"
               onChange={changeMaxNumber}
               onKeyDown={keyDownMaxNumber}
-            >
-            </input>
+            />
             <button
               type="button"
               className="btn btn--blue"
