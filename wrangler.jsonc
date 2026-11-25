@@ -1,0 +1,10 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "web-roulette",
+  "compatibility_date": "2026-11-25",
+  "assets": {
+    "directory": "./dist"
+  }
+  // The custom domain web-roulette.raa0121.info is managed by Terraform in
+  // the infra repository, so it is not listed in routes here.
+}
