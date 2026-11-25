@@ -32,6 +32,8 @@ export default function App() {
   const [continueResults, setContinueResults] = useState<string[]>([]);
   const [fontSize, setFontSize] = useState(48);
   const [isContinue, setIsContinue] = useState(false);
+  const [isSpinning, setIsSpinning] = useState(false);
+  const [pendingWinner, setPendingWinner] = useState<string | null>(null);
 
   const changeMaxNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(e.target.value, 10);
@@ -92,6 +94,7 @@ export default function App() {
   };
 
   const textareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setPendingWinner(null);
     setTextarea(e.target.value);
     changeItems(e.target.value.split("\n"));
     e.preventDefault();
@@ -102,13 +105,34 @@ export default function App() {
       { length: Number(max) },
       (_elm, index) => String(index + 1),
     );
+    setPendingWinner(null);
     setTextarea(seq.join("\n"));
     changeItems(seq);
   };
 
-  const onContinueStart = () => {
+  const onNormalStart = () => {
+    if (isSpinning) return;
+    setIsContinue(false);
+    setIsSpinning(true);
     onStart();
+  };
+
+  // The previous winner stays on the wheel until the next continuous draw,
+  // so it is removed here rather than in onSpinEnd. Updating items in the
+  // same handler as onStart lets the spin start with the reduced list.
+  const onContinueStart = () => {
+    if (isSpinning) return;
+    let names = items.map((i) => i.name);
+    if (pendingWinner !== null) {
+      names = names.filter((name) => name !== pendingWinner);
+      setTextarea(names.join("\n"));
+      changeItems(names);
+      setPendingWinner(null);
+    }
+    if (names.length === 0) return;
     setIsContinue(true);
+    setIsSpinning(true);
+    onStart();
   };
 
   const onSpinUp = () => {
@@ -118,11 +142,10 @@ export default function App() {
   };
 
   const onSpinEnd = (result: string) => {
+    setIsSpinning(false);
     if (isContinue) {
-      setContinueResults(continueResults.concat([result]));
-      const filteredNames = items.map((i) => i.name).filter((i) => i != result);
-      setTextarea(filteredNames.join("\n"));
-      changeItems(filteredNames);
+      setContinueResults((prev) => [...prev, result]);
+      setPendingWinner(result);
     }
   };
 
@@ -171,7 +194,7 @@ export default function App() {
             </button>
           </div>
           <div>
-            <button type="button" className="btn btn--blue" onClick={onStart}>
+            <button type="button" className="btn btn--blue" onClick={onNormalStart}>
               開始
             </button>
             <button type="button" className="btn btn--red" onClick={onStop}>
